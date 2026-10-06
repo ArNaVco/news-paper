@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEESEC Signals — Vol. 1 · 15 June 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f3ea;
+  --paper-2:#fffdf6;
+  --ink:#14110c;
+  --ink-soft:#4a4438;
+  --rule:#cdc5b5;
+  --rule-strong:#8d8574;
+  --accent:#0f9d6e;
+  --accent-dark:#0a6b4b;
+  --serif:'Playfair Display', Georgia, 'Times New Roman', serif;
+  --body:'Source Serif 4', Georgia, serif;
+  --sans:'Inter', system-ui, -apple-system, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  padding:88px 18px 70px;
+  background:
+    radial-gradient(circle at 18% 8%, #efe9db, transparent 55%),
+    radial-gradient(circle at 88% 78%, #e8e1d1, transparent 52%),
+    #e4ded0;
+  color:var(--ink);
+  font-family:var(--body);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+img{max-width:100%}
+
+/* ================= TOP BAR ================= */
+.topbar{
+  position:fixed; inset:0 0 auto 0; height:64px; z-index:90;
+  display:flex; align-items:center; gap:14px;
+  padding:0 16px;
+  background:rgba(18,15,11,.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.12);
+  color:#f6f2e9;
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-mark{
+  width:30px;height:30px;flex:none;border-radius:50%;
+  background:linear-gradient(135deg,#12b981,#0a6b4b);
+  display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px;
+  font-family:var(--sans);letter-spacing:-.5px;
+}
+.brand-text{
+  font-family:var(--sans);font-weight:700;font-size:.74rem;
+  letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;
+}
+.brand-text small{display:block;font-weight:400;letter-spacing:.16em;font-size:.56rem;opacity:.6}
+.spacer{flex:1}
+
+.dots{display:flex;gap:7px;align-items:center}
+.dot{
+  width:9px;height:9px;border-radius:50%;border:1px solid rgba(255,255,255,.4);
+  background:transparent;cursor:pointer;padding:0;transition:.25s;
+}
+.dot:hover{background:rgba(255,255,255,.35)}
+.dot.active{background:#12b981;border-color:#12b981;transform:scale(1.25)}
+
+.nav-btn{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.06);color:#f6f2e9;
+  display:grid;place-items:center;cursor:pointer;
+  font-size:16px;line-height:1;transition:.2s;
+}
+.nav-btn:hover:not(:disabled){background:rgba(255,255,255,.16);transform:translateY(-1px)}
+.nav-btn:disabled{opacity:.28;cursor:not-allowed}
+.counter{
+  font-family:var(--sans);font-size:.7rem;letter-spacing:.14em;
+  opacity:.85;min-width:52px;text-align:center;
+}
+.add-btn{
+  font-family:var(--sans);font-weight:600;font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:10px 16px;border-radius:40px;cursor:pointer;
+  border:1px solid #12b981;background:#12b981;color:#04180f;
+  transition:.22s;white-space:nowrap;
+}
+.add-btn:hover{background:#19c98d;transform:translateY(-1px);box-shadow:0 6px 18px -6px rgba(18,185,129,.8)}
+
+/* ================= PAPER ================= */
+.paper{
+  width:min(1180px,100%);
+  margin:0 auto;
+  background:var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.014) 0 1px, transparent 1px 3px),
+    radial-gradient(circle at 50% -10%, rgba(255,255,255,.8), transparent 55%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.55) inset,
+    0 40px 70px -28px rgba(35,28,16,.5),
+    0 6px 18px rgba(35,28,16,.16);
+  position:relative;
+  border-radius:2px 6px 6px 2px;
+}
+.paper::before{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:26px;z-index:6;pointer-events:none;
+  background:
+    radial-gradient(circle at 11px 50%, rgba(60,50,35,.28) 0 3.5px, transparent 4.5px) 0 0/26px 64px repeat-y,
+    linear-gradient(90deg, rgba(90,78,55,.20), transparent);
+}
+.paper::after{
+  content:"";position:absolute;top:0;right:0;bottom:0;width:14px;
+  background:linear-gradient(90deg, transparent, rgba(90,78,55,.10));
+  pointer-events:none;
+}
+
+/* ================= PAGE FLIP (notebook) ================= */
+.book{display:grid;perspective:2600px;perspective-origin:50% 40%}
+.page{
+  display:none;grid-area:1/1;min-width:0;position:relative;
+  padding:clamp(20px,3.4vw,54px) clamp(20px,3.4vw,54px) clamp(20px,3.4vw,54px) clamp(40px,4.6vw,70px);
+  backface-visibility:hidden;transform-origin:left center;
+}
+.page.active,.page.show{display:block}
+.page.flip-out,.page.flip-in,.page.under{
+  background-color:var(--paper);
+  background-image:repeating-linear-gradient(0deg, rgba(0,0,0,.014) 0 1px, transparent 1px 3px);
+}
+.page.under{z-index:1}
+.page.under::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:4;
+  background:linear-gradient(90deg, rgba(30,24,12,.38), rgba(30,24,12,.08) 55%, transparent);
+  animation:underShade .95s ease-in-out both;
+}
+.page.flip-out{z-index:5;animation:flipOut .95s cubic-bezier(.45,.05,.25,1) both;will-change:transform}
+.page.flip-in{z-index:5;animation:flipIn .95s cubic-bezier(.45,.05,.25,1) both;will-change:transform}
+@keyframes flipOut{
+  0%  {transform:rotateY(0);filter:brightness(1);box-shadow:0 0 0 rgba(0,0,0,0)}
+  45% {transform:rotateY(-78deg);filter:brightness(.88);box-shadow:-40px 10px 60px rgba(0,0,0,.35)}
+  100%{transform:rotateY(-170deg);filter:brightness(.7);box-shadow:-10px 0 20px rgba(0,0,0,.1);opacity:.4}
+}
+@keyframes flipIn{
+  0%  {transform:rotateY(-170deg);filter:brightness(.7);opacity:.4}
+  55% {transform:rotateY(-78deg);filter:brightness(.88);box-shadow:-40px 10px 60px rgba(0,0,0,.35)}
+  100%{transform:rotateY(0);filter:brightness(1);box-shadow:0 0 0 rgba(0,0,0,0);opacity:1}
+}
+@keyframes underShade{0%{opacity:1}100%{opacity:0}}
+
+/* ================= MASTHEAD ================= */
+.rule-double{border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);height:5px}
+.rule-thin{border-top:1px solid var(--rule)}
+.nameplate{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(2.1rem,7.4vw,5.1rem);
+  line-height:.94;letter-spacing:-.018em;text-align:center;
+  text-transform:uppercase;margin:.22em 0 .1em;
+}
+.nameplate span{color:var(--accent-dark)}
+.masthead-meta{
+  display:flex;justify-content:space-between;gap:10px 22px;flex-wrap:wrap;
+  font-family:var(--sans);font-size:.63rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-soft);
+  padding:9px 2px;margin-top:10px;
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+}
+.kicker-row{
+  display:flex;justify-content:center;flex-wrap:wrap;
+  gap:clamp(16px,6vw,72px);
+  font-family:var(--sans);font-weight:700;font-size:.7rem;
+  letter-spacing:.34em;text-transform:uppercase;color:var(--accent-dark);
+  padding:16px 0 4px;
+}
+.kicker-row span{position:relative}
+.kicker-row span+span::before{
+  content:"◆";position:absolute;left:calc(-1 * clamp(8px,3vw,36px));
+  color:var(--rule-strong);font-size:.5rem;top:2px;
+}
+
+/* ================= HEADLINES ================= */
+.lead-headline{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(1.75rem,4.4vw,3.3rem);
+  line-height:1.05;text-align:center;letter-spacing:-.012em;
+  margin:.7rem auto .45rem;max-width:22ch;
+}
+.deck{
+  font-family:var(--serif);font-style:italic;font-weight:400;
+  font-size:clamp(.95rem,1.5vw,1.15rem);line-height:1.5;
+  text-align:center;color:var(--ink-soft);
+  max-width:62ch;margin:0 auto 1.4rem;
+}
+.sec-kicker{
+  font-family:var(--sans);font-weight:700;font-size:.63rem;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--accent-dark);
+  margin:2.2rem 0 .3rem;
+}
+.sec-head{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(1.3rem,2.5vw,1.95rem);
+  line-height:1.12;letter-spacing:-.008em;
+  margin:0 0 .7rem;padding-bottom:.4rem;
+  border-bottom:2px solid var(--ink);
+}
+.sec-head.center{text-align:center}
+
+/* ================= TEXT ================= */
+.body-cols{
+  columns:2;column-gap:2.4rem;column-rule:1px solid var(--rule);
+  margin-top:.9rem;
+}
+@media(max-width:840px){.body-cols{columns:1;column-rule:none}}
+.page p{
+  font-size:1.045rem;line-height:1.66;
+  text-align:justify;hyphens:auto;
+  margin:0 0 1em;
+}
+.page p strong{font-weight:600}
+.dropcap::first-letter{
+  float:left;font-family:var(--serif);font-weight:700;
+  font-size:4.1em;line-height:.8;padding:.08em .1em 0 0;
+}
+.byline{
+  font-family:var(--sans);font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-soft);
+  margin:-.2rem 0 .9rem;
+}
+
+/* ================= FIGURES ================= */
+figure{margin:1.5rem 0;break-inside:avoid}
+figure img{
+  display:block;width:100%;height:auto;
+  border:1px solid var(--rule-strong);
+  filter:grayscale(.22) contrast(1.05) sepia(.07);
+}
+figcaption{
+  font-family:var(--sans);font-size:.68rem;line-height:1.55;
+  color:var(--ink-soft);padding-top:.5rem;margin-top:.5rem;
+  border-top:1px solid var(--rule);
+}
+figcaption b{
+  display:block;font-weight:700;font-size:.6rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-dark);margin-bottom:.15rem;
+}
+.fig-half{max-width:64%;margin-left:auto;margin-right:auto}
+@media(max-width:700px){.fig-half{max-width:100%}}
+
+/* ================= DIAGRAM ================= */
+.ai-diagram{width:100%;height:auto;display:block;border:1px solid var(--rule)}
+
+/* ================= PULLQUOTE ================= */
+.pullquote{
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.35;
+  text-align:center;color:var(--ink);
+  border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  padding:.9rem .5rem;margin:1.5rem 0;break-inside:avoid;
+}
+
+/* ================= BOX ================= */
+.box{
+  border:1px solid var(--ink);
+  background:rgba(15,157,110,.055);
+  padding:1.1rem 1.25rem;margin:1.5rem 0;break-inside:avoid;
+}
+.box h4{
+  font-family:var(--sans);font-size:.66rem;font-weight:700;
+  letter-spacing:.24em;text-transform:uppercase;
+  color:var(--accent-dark);margin:0 0 .7rem;
+}
+.box ul{margin:0;padding-left:1.15rem;font-size:.98rem;line-height:1.7}
+.box li{margin-bottom:.25rem}
+
+/* ================= CALENDAR TABLE ================= */
+.cal-table{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:.82rem;margin-top:.4rem}
+.cal-table th{
+  text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:2px solid var(--ink);padding:8px 12px 8px 0;
+}
+.cal-table td{padding:12px 12px 12px 0;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.5}
+.cal-table tr:last-child td{border-bottom:none}
+.cal-date{font-weight:700;color:var(--accent-dark);white-space:nowrap;font-variant-numeric:tabular-nums}
+.cal-tag{
+  display:inline-block;font-size:.58rem;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;border:1px solid var(--rule-strong);
+  padding:2px 7px;border-radius:2px;color:var(--ink-soft);white-space:nowrap;
+}
+.cal-event{font-weight:600;color:var(--ink)}
+@media(max-width:760px){
+  .cal-table thead{display:none}
+  .cal-table tr{display:block;border-bottom:1px solid var(--rule);padding:12px 0}
+  .cal-table td{display:block;border:none;padding:2px 0}
+}
+
+/* ================= PAGE FOOT ================= */
+.page-foot{
+  margin-top:2.6rem;padding-top:.7rem;
+  border-top:2px solid var(--ink);
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  font-family:var(--sans);font-size:.62rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.foot-note{
+  text-align:center;font-family:var(--sans);font-size:.62rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);
+  margin-top:2rem;padding-top:.8rem;border-top:1px solid var(--rule);
+}
+
+/* ================= CUSTOM PAGE ================= */
+.custom-page{position:relative}
+.del-page{
+  position:absolute;top:-6px;right:0;
+  font-family:var(--sans);font-size:.58rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--rule-strong);
+  color:var(--ink-soft);padding:6px 12px;border-radius:30px;
+  cursor:pointer;transition:.2s;opacity:0;
+}
+.custom-page:hover .del-page{opacity:1}
+body:not(.is-admin) .del-page{display:none}
+.del-page:hover{background:#b3261e;border-color:#b3261e;color:#fff}
+.run-head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  font-family:var(--sans);font-size:.62rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:1px solid var(--ink);padding-bottom:8px;margin-bottom:1.6rem;
+}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.1rem;margin-top:1.4rem}
+.gallery figure{margin:0}
+
+/* ================= DRAWER ================= */
+.scrim{
+  position:fixed;inset:0;z-index:110;
+  background:rgba(18,15,11,.55);backdrop-filter:blur(3px);
+  opacity:0;pointer-events:none;transition:.4s;
+}
+.scrim.show{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;height:100dvh;width:min(470px,94vw);
+  z-index:120;display:flex;flex-direction:column;
+  background:var(--paper-2);
+  border-left:1px solid var(--rule);
+  box-shadow:-30px 0 70px -25px rgba(0,0,0,.55);
+  transform:translateX(105%);
+  transition:transform .5s cubic-bezier(.22,1,.36,1);
+}
+.drawer.open{transform:none}
+.drawer-head{
+  padding:20px 22px 16px;border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.drawer-head h3{
+  font-family:var(--serif);font-size:1.25rem;font-weight:700;
+  margin:0;letter-spacing:-.01em;
+}
+.drawer-head p{
+  font-family:var(--sans);font-size:.6rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent-dark);margin:3px 0 0;font-weight:700;
+}
+.close-x{
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--rule);
+  background:#fff;cursor:pointer;font-size:16px;line-height:1;
+  display:grid;place-items:center;color:var(--ink);transition:.2s;flex:none;
+}
+.close-x:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.drawer-body{padding:20px 22px;overflow-y:auto;flex:1}
+.drawer-foot{
+  padding:16px 22px;border-top:1px solid var(--rule);
+  display:flex;gap:10px;background:#faf7ee;
+}
+.field{margin-bottom:16px}
+.field label{
+  display:block;font-family:var(--sans);font-size:.62rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);
+  margin-bottom:7px;
+}
+.field input[type=text], .field textarea, .field input[type=url]{
+  width:100%;padding:11px 13px;border:1px solid var(--rule);
+  background:#fff;border-radius:3px;font-family:var(--body);
+  font-size:.95rem;color:var(--ink);outline:none;transition:.2s;resize:vertical;
+}
+.field textarea{min-height:170px;line-height:1.6}
+.field input:focus,.field textarea:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,157,110,.14);
+}
+.field .hint{
+  font-family:var(--sans);font-size:.62rem;color:var(--ink-soft);
+  margin-top:6px;line-height:1.5;letter-spacing:.02em;
+}
+.drop{
+  border:1.5px dashed var(--rule-strong);border-radius:6px;
+  padding:20px 16px;text-align:center;cursor:pointer;
+  background:#fdfbf4;transition:.22s;display:block;
+}
+.drop:hover,.drop.hot{border-color:var(--accent);background:rgba(15,157,110,.06)}
+.drop span{
+  display:block;font-family:var(--sans);font-size:.72rem;font-weight:600;
+  letter-spacing:.08em;color:var(--ink);margin-bottom:4px;
+}
+.drop small{font-family:var(--sans);font-size:.62rem;color:var(--ink-soft)}
+input[type=file]{display:none}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+.thumb{position:relative;border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:#eee}
+.thumb img{display:block;width:100%;height:74px;object-fit:cover}
+.thumb button{
+  position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;
+  border:none;background:rgba(0,0,0,.7);color:#fff;font-size:12px;line-height:1;
+  cursor:pointer;display:grid;place-items:center;
+}
+.btn{
+  font-family:var(--sans);font-weight:600;font-size:.72rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:13px 20px;border-radius:40px;cursor:pointer;transition:.22s;
+  border:1px solid var(--ink);background:transparent;color:var(--ink);flex:1;
+}
+.btn:hover{background:var(--ink);color:#fff}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#04180f}
+.btn.primary:hover{background:#19c98d;box-shadow:0 8px 20px -8px rgba(18,185,129,.9);transform:translateY(-1px)}
+.btn.ghost{border-color:var(--rule);color:var(--ink-soft);flex:0 0 auto}
+.btn.ghost:hover{background:var(--rule);color:var(--ink)}
+
+/* ================= ADMIN LOGIN ================= */
+.logout-btn{
+  font-family:var(--sans);font-weight:600;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:9px 13px;border-radius:40px;cursor:pointer;border:1px solid rgba(255,255,255,.3);
+  background:transparent;color:#f6f2e9;transition:.2s;white-space:nowrap;display:none;
+}
+.logout-btn:hover{background:rgba(255,255,255,.14)}
+body.is-admin .logout-btn{display:inline-block}
+.modal{
+  position:fixed;inset:0;z-index:150;display:grid;place-items:center;padding:18px;
+  background:rgba(18,15,11,.6);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal.show{opacity:1;pointer-events:auto}
+.login-card{
+  width:min(400px,100%);background:var(--paper-2);border:1px solid var(--rule);
+  border-top:4px solid var(--accent);border-radius:4px;padding:28px 26px 24px;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.6);
+  transform:translateY(18px) scale(.97);transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.modal.show .login-card{transform:none}
+.login-card .kick{font-family:var(--sans);font-size:.6rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent-dark);margin:0 0 4px}
+.login-card h3{font-family:var(--serif);font-size:1.5rem;margin:0 0 4px}
+.login-card .sub{font-family:var(--sans);font-size:.72rem;color:var(--ink-soft);margin:0 0 20px;line-height:1.5}
+.login-card .field input{
+  width:100%;padding:11px 13px;border:1px solid var(--rule);background:#fff;border-radius:3px;
+  font-family:var(--body);font-size:.95rem;color:var(--ink);outline:none;transition:.2s;
+}
+.login-card .field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,157,110,.14)}
+.login-err{font-family:var(--sans);font-size:.7rem;color:#b3261e;min-height:1.1em;margin:-4px 0 12px;font-weight:600}
+.login-actions{display:flex;gap:10px}
+
+/* ================= TOAST ================= */
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,140%);
+  background:var(--ink);color:#f6f2e9;
+  font-family:var(--sans);font-size:.72rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:13px 24px;border-radius:40px;z-index:200;
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 18px 40px -14px rgba(0,0,0,.6);
+}
+.toast.show{transform:translate(-50%,0)}
+.toast.err{background:#8f1d16}
+
+@media(max-width:720px){
+  body{padding:78px 10px 50px}
+  .brand-text{font-size:.62rem;letter-spacing:.18em}
+  .brand-text small{display:none}
+  .dots{display:none}
+  .counter{min-width:auto}
+  .add-btn{padding:9px 13px;font-size:.64rem}
+  .logout-btn{padding:9px 10px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">SS</div>
+    <div class="brand-text">SEESEC Signals<small>Vol. 1 · 15 June 2026</small></div>
+  </div>
+  <div class="spacer"></div>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" id="prevBtn" aria-label="Previous page">‹</button>
+  <span class="counter" id="counter">1 / 1</span>
+  <button class="nav-btn" id="nextBtn" aria-label="Next page">›</button>
+  <button class="add-btn" id="openDrawer">🔒 Admin</button>
+  <button class="logout-btn" id="logoutBtn">Logout</button>
+</div>
+
+<!-- ============ PAPER ============ -->
+<main class="paper">
+  <div class="book" id="book">
+
+    <!-- ================= PAGE 1 ================= -->
+    <article class="page active">
+      <header class="masthead">
+        <div class="rule-double"></div>
+        <h1 class="nameplate">SEESEC <span>Signals</span></h1>
+        <div class="masthead-meta">
+          <span>Vol. 1 &nbsp;•&nbsp; No. 1</span>
+          <span>Monday, 15 June 2026</span>
+          <span>Gurugram, India</span>
+          <span>First Edition</span>
+        </div>
+      </header>
+
+      <div class="kicker-row"><span>Milestones</span><span>Solutions</span><span>Growth</span></div>
+
+      <h2 class="lead-headline">Building the Future. One Solution at a Time.</h2>
+      <p class="deck">SEESEC Signals opens with a look at how SEESEC is building practical technology solutions across Cloud, Generative AI, Automation, Data Intelligence and Digital Transformation.</p>
+
+      <div class="body-cols">
+        <p class="dropcap">SEESEC Signals begins with a look at how SEESEC is building practical technology solutions across Cloud, Generative AI, Automation, Data Intelligence, and Digital Transformation. This first edition captures the progress, ideas, milestones, and innovations that are shaping SEESEC's journey as a fast-growing technology company.</p>
+        <p>With a strong focus on solving real business challenges, SEESEC continues to help organizations modernize operations, improve efficiency, strengthen digital capabilities, and move confidently toward future-ready transformation.</p>
+      </div>
+
+      <figure>
+        <img data-ph="Leadership" data-hue="154" alt="SEESEC leadership">
+        <figcaption><b>On the record</b> SEESEC leadership at the AWS &amp; Ingram Micro partner showcase — a year of cloud-first execution and enterprise AI delivery.</figcaption>
+      </figure>
+
+      <p class="sec-kicker">Cover Story</p>
+      <h3 class="sec-head">15 Months of Growth</h3>
+
+      <div class="body-cols">
+        <p>In just 15 months, SEESEC's journey has been marked by strong momentum across customers, partnerships, innovation, and team expansion.</p>
+        <p>From serving <strong>100+ customers</strong> and working on <strong>200+ business opportunities</strong> to winning <strong>IMPL 7.0</strong>, achieving <strong>AWS Advanced Tier Services Partner</strong> recognition, developing enterprise AI and cloud solutions, and moving into a new headquarters in Gurugram, each milestone reflects SEESEC's growing scale and future-focused vision.</p>
+      </div>
+
+      <figure class="fig-half">
+        <img data-ph="The Team" data-hue="168" alt="SEESEC team">
+        <figcaption><b>Fifteen months in</b> The SEESEC team at the Gurugram office — a shared vision built on learning, experimentation and customer success.</figcaption>
+      </figure>
+
+      <footer class="page-foot">
+        <span>SEESEC Signals · Vol. 1</span>
+        <span class="pg-num">Page 1</span>
+        <span class="pg-total">of 6</span>
+      </footer>
+    </article>
+
+    <!-- ================= PAGE 2 ================= -->
+    <article class="page">
+      <div class="run-head"><span>SEESEC Signals</span><span>Milestones</span><span>15 June 2026</span></div>
+
+      <p class="sec-kicker">Cloud Recognition</p>
+      <h3 class="sec-head">SEESEC Becomes an AWS Advanced Tier Services Partner</h3>
+
+      <div class="body-cols">
+        <p class="dropcap">One of SEESEC's biggest milestones has been achieving AWS Advanced Tier Services Partner status, a recognition that reflects our growing strength in cloud transformation and enterprise technology delivery.</p>
+        <p>This achievement highlights SEESEC's expertise across infrastructure modernization, cloud security, cost optimization, managed services, and Generative AI deployments on AWS.</p>
+        <p>As more organizations look to modernize their infrastructure and adopt AI at scale, this milestone strengthens our ability to deliver secure, scalable, and enterprise-grade cloud and AI solutions with greater confidence, speed, and impact.</p>
+        <p>It also reinforces SEESEC's position as a trusted technology partner for businesses building future-ready digital infrastructure.</p>
+      </div>
+
+      <figure>
+        <img data-ph="Celebrating the Milestone" data-hue="142" alt="Team celebration">
+        <figcaption><b>Advanced Tier</b> The SEESEC team marking a major AWS partnership milestone — a validation of cloud depth, delivery quality and customer trust.</figcaption>
+      </figure>
+
+      <p class="sec-kicker">Anniversary</p>
+      <h3 class="sec-head">Celebrating One Year of SEESEC</h3>
+
+      <div class="body-cols">
+        <p>On 7th April 2026, SEESEC completed its first year. The journey has been filled with learning, experimentation, customer success, and continuous innovation.</p>
+        <p>Over the year, we strengthened our foundations, expanded our capabilities, and built solutions that address real business challenges. The first year was about building strong foundations, and the next phase is about scaling impact.</p>
+        <p>This milestone marks the beginning of a stronger, more ambitious chapter for SEESEC.</p>
+      </div>
+
+      <p class="pullquote">“The first year was about building strong foundations. The next phase is about scaling impact.”</p>
+
+      <figure class="fig-half">
+        <img data-ph="One Year" data-hue="96" alt="Cutting the anniversary cake">
+        <figcaption><b>7 April 2026</b> SEESEC founders cut the first-anniversary cake at the Gurugram office.</figcaption>
+      </figure>
+
+      <p class="sec-kicker">Ecosystem</p>
+      <h3 class="sec-head">AWS &amp; Ingram Micro Executive Roundtable</h3>
+
+      <div class="body-cols">
+        <p>On 29th April, SEESEC, AWS, and Ingram Micro hosted an exclusive leadership event focused on Generative AI, Cloud Modernization, AWS Innovation, and Business Automation.</p>
+        <p>The event welcomed <strong>56 business leaders</strong>, exceeding the planned audience size and creating strong engagement around practical AI adoption and cloud transformation.</p>
+        <p>The discussions opened new conversations around enterprise use cases, modernization opportunities, and business automation. Special thanks to <strong>Punit Jain</strong> and <strong>Satinder Singh</strong> from AWS for sharing valuable insights and adding immense value to the session.</p>
+      </div>
+
+      <figure>
+        <img data-ph="Executive Roundtable" data-hue="196" alt="Executive roundtable group photo">
+        <figcaption><b>56 leaders, one room</b> SEESEC, AWS and Ingram Micro host an exclusive leadership roundtable on Generative AI and cloud modernization.</figcaption>
+      </figure>
+
+      <footer class="page-foot">
+        <span>SEESEC Signals · Vol. 1</span>
+        <span class="pg-num">Page 2</span>
+        <span class="pg-total">of 6</span>
+      </footer>
+    </article>
+
+    <!-- ================= PAGE 3 ================= -->
+    <article class="page">
+      <div class="run-head"><span>SEESEC Signals</span><span>Solutions</span><span>15 June 2026</span></div>
+
+      <p class="sec-kicker">Applied AI</p>
+      <h3 class="sec-head">SEESEC Content Creation Automation Suite</h3>
+
+      <div class="body-cols">
+        <p class="dropcap">SEESEC continues to develop practical and deployable AI solutions that help organizations improve productivity, automate operations, and create new digital experiences.</p>
+        <p>Over the last few months, our engineering and AI teams have focused on building solutions for real business use cases across media, marketing, enterprise operations, HR, compliance, and cloud transformation.</p>
+        <p>From AI curiosity to AI adoption, businesses are now looking for solutions that are secure, scalable, and outcome-driven.</p>
+      </div>
+
+      <figure>
+        <svg class="ai-diagram" viewBox="0 0 900 520" role="img" aria-label="SEESEC Content Creation Automation Suite diagram">
+          <defs>
+            <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#12b981"/><stop offset="1" stop-color="#0a6b4b"/>
+            </linearGradient>
+            <radialGradient id="halo">
+              <stop offset="0" stop-color="#12b981" stop-opacity=".20"/>
+              <stop offset="1" stop-color="#12b981" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="900" height="520" fill="#fbf8f1"/>
+          <circle cx="450" cy="260" r="235" fill="url(#halo)"/>
+          <circle cx="450" cy="260" r="155" fill="none" stroke="#0f9d6e" stroke-opacity=".28" stroke-dasharray="5 7"/>
+          <g stroke="#0f9d6e" stroke-opacity=".5" stroke-width="1.6">
+            <line x1="450" y1="260" x2="450" y2="112"/>
+            <line x1="450" y1="260" x2="690" y2="182"/>
+            <line x1="450" y1="260" x2="690" y2="398"/>
+            <line x1="450" y1="260" x2="210" y2="398"/>
+            <line x1="450" y1="260" x2="210" y2="182"/>
+          </g>
+
+          <circle cx="450" cy="260" r="78" fill="#ffffff" stroke="url(#cg)" stroke-width="3"/>
+          <text x="450" y="252" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="25" fill="#14110c">SEESEC</text>
+          <text x="450" y="276" text-anchor="middle" font-family="Helvetica,Arial" font-size="10.5" letter-spacing="3" fill="#0a6b4b">AI SUITE</text>
+
+          <g font-family="Helvetica,Arial" font-size="12.5" font-weight="700" fill="#14110c" text-anchor="middle">
+            <!-- top -->
+            <circle cx="450" cy="112" r="50" fill="#fff" stroke="#12b981" stroke-width="2"/>
+            <text x="450" y="122" font-size="30" text-anchor="middle">📝</text>
+            <text x="450" y="186">Article → Video AI</text>
+            <!-- top-right -->
+            <circle cx="690" cy="182" r="50" fill="#fff" stroke="#12b981" stroke-width="2"/>
+            <text x="690" y="192" font-size="30" text-anchor="middle">🎞️</text>
+            <text x="690" y="256">Long → Short Video AI</text>
+            <!-- bottom-right -->
+            <circle cx="690" cy="398" r="50" fill="#fff" stroke="#12b981" stroke-width="2"/>
+            <text x="690" y="408" font-size="30" text-anchor="middle">✨</text>
+            <text x="690" y="472">AI Video Denoising</text>
+            <!-- bottom-left -->
+            <circle cx="210" cy="398" r="50" fill="#fff" stroke="#12b981" stroke-width="2"/>
+            <text x="210" y="408" font-size="30" text-anchor="middle">🖼️</text>
+            <text x="210" y="472">AI Thumbnail Generator</text>
+            <!-- top-left -->
+            <circle cx="210" cy="182" r="50" fill="#fff" stroke="#12b981" stroke-width="2"/>
+            <text x="210" y="192" font-size="30" text-anchor="middle">🎬</text>
+            <text x="210" y="256">Image → Video AI</text>
+          </g>
+        </svg>
+        <figcaption><b>The Suite</b> Five connected AI engines built to create, repurpose and enhance content at scale.</figcaption>
+      </figure>
+
+      <div class="body-cols">
+        <p>To solve content production challenges, SEESEC developed an AI-powered Content Creation Automation Suite designed to help teams create, repurpose, and enhance content faster with less manual effort.</p>
+        <p>It includes an <strong>AI Image-to-Video Generator</strong>, an <strong>AI Article-to-Video Generator</strong>, an <strong>AI Long-to-Short Video Converter</strong>, an <strong>AI Thumbnail Creator</strong>, and an <strong>AI Video Denoising Tool</strong>. Together, these solutions support faster content workflows, reduce repetitive editing tasks, and help businesses convert ideas, articles, images, and videos into publish-ready digital assets.</p>
+        <p>These solutions are especially useful for media houses, publishers, content creators, marketing teams, education platforms, and digital-first businesses looking to scale content production, improve turnaround time, and deliver engaging content more efficiently.</p>
+      </div>
+
+      <div class="box">
+        <h4>What the Suite Delivers</h4>
+        <ul>
+          <li><strong>Image-to-Video AI</strong> — Transform static images into dynamic and engaging videos.</li>
+          <li><strong>Article-to-Video AI</strong> — Convert articles, blogs and reports into engaging videos.</li>
+          <li><strong>Long-to-Short Video AI</strong> — Convert long videos into short, impactful reels &amp; shorts.</li>
+          <li><strong>AI Thumbnail Generator</strong> — Generate eye-catching thumbnails and visual assets in seconds.</li>
+          <li><strong>AI Video Denoising</strong> — Restore and enhance low-quality videos with AI precision.</li>
+        </ul>
+      </div>
+
+      <footer class="page-foot">
+        <span>SEESEC Signals · Vol. 1</span>
+        <span class="pg-num">Page 3</span>
+        <span class="pg-total">of 6</span>
+      </footer>
+    </article>
+
+    <!-- ================= PAGE 4 ================= -->
+    <article class="page">
+      <div class="run-head"><span>SEESEC Signals</span><span>Engineering</span><span>15 June 2026</span></div>
+
+      <p class="sec-kicker">Capabilities</p>
+      <h3 class="sec-head">Expanding Generative AI Capabilities</h3>
+
+      <div class="body-cols">
+        <p class="dropcap">SEESEC has expanded its Generative AI capabilities across Enterprise AI Assistants, Custom LLM Deployments, Agentic AI Systems, AI-Powered Business Automation, Communication Intelligence, and AI Knowledge Management Systems.</p>
+        <p>Our focus remains on secure, scalable, enterprise-grade AI solutions that deliver measurable business outcomes.</p>
+      </div>
+
+      <p class="sec-kicker">Product Engineering</p>
+      <h3 class="sec-head">Engineering Innovation</h3>
+
+      <div class="body-cols">
+        <p>SEESEC recently developed an <strong>AI-enabled HRMS Bot</strong> that helps employees apply for leave, access HR policies, retrieve employee information, and interact with HR systems conversationally.</p>
+        <p>Our engineering team also developed a <strong>smoke testing automation solution</strong> to reduce repetitive validation tasks, improve testing efficiency, and support faster software releases.</p>
+      </div>
+
+      <figure>
+        <img data-ph="Compliance by Design" data-hue="210" alt="Compliance illustration">
+        <figcaption><b>Governance technology</b> Building compliance readiness into the core of enterprise digital infrastructure.</figcaption>
+      </figure>
+
+      <p class="sec-kicker">Governance</p>
+      <h3 class="sec-head">DPDP Compliance: From Concept to Market Adoption</h3>
+
+      <div class="body-cols">
+        <p>With India's DPDP Act creating new compliance requirements, SEESEC developed an end-to-end DPDP compliance solution to help businesses strengthen governance, identify risks, and improve compliance readiness.</p>
+        <p>We are proud to share that <strong>HT Media has adopted SEESEC's DPDP solution</strong> as part of its compliance journey.</p>
+      </div>
+
+      <p class="pullquote">“From concept to market adoption — compliance built for real enterprise scale.”</p>
+
+      <p class="sec-kicker">Quality Assurance</p>
+      <h3 class="sec-head">Smoke Testing Automation Solution</h3>
+
+      <div class="body-cols">
+        <p>SEESEC's engineering team developed an intelligent smoke testing automation solution designed to accelerate software release cycles and improve quality assurance processes.</p>
+        <p>The solution helps organizations automate repetitive validation tasks, reduce testing effort, identify early issues, and improve confidence before releases move forward.</p>
+        <p>By combining automation with quality assurance, SEESEC is helping teams build faster, test smarter, and release with greater confidence.</p>
+      </div>
+
+      <figure class="fig-half">
+        <img data-ph="Connected Systems" data-hue="240" alt="Connected network illustration">
+        <figcaption><b>Build faster, test smarter</b> Automation woven through the release pipeline — from validation to deployment confidence.</figcaption>
+      </figure>
+
+      <footer class="page-foot">
+        <span>SEESEC Signals · Vol. 1</span>
+        <span class="pg-num">Page 4</span>
+        <span class="pg-total">of 6</span>
+      </footer>
+    </article>
+
+    <!-- ================= PAGE 5 ================= -->
+    <article class="page">
+      <div class="run-head"><span>SEESEC Signals</span><span>Advisory</span><span>15 June 2026</span></div>
+
+      <p class="sec-kicker">Advisory Desk</p>
+      <h3 class="sec-head">Compliance &amp; Modernization Calendar — July 2026</h3>
+
+      <p style="font-family:var(--serif);font-style:italic;color:var(--ink-soft);max-width:70ch;margin:.2rem 0 1.2rem;">
+        Key regulatory obligations and end-of-support deadlines that enterprise technology teams should be tracking this quarter.
+      </p>
+
+      <table class="cal-table">
+        <thead>
+          <tr><th>Date</th><th>Area</th><th>Event</th><th>Action Required</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cal-date">01 Jul 2026</td>
+            <td><span class="cal-tag">Database</span></td>
+            <td class="cal-event">SQL Server 2016 End of Support</td>
+            <td>Upgrade or migrate before support ends.</td>
+          </tr>
+          <tr>
+            <td class="cal-date">14 Jul 2026</td>
+            <td><span class="cal-tag">Collaboration</span></td>
+            <td class="cal-event">SharePoint Server 2016 / 2019 End of Support</td>
+            <td>Plan migration to supported platforms.</td>
+          </tr>
+          <tr>
+            <td class="cal-date">14 Jul 2026</td>
+            <td><span class="cal-tag">Project Management</span></td>
+            <td class="cal-event">Microsoft Project Server 2016 / 2019 End of Support</td>
+            <td>Prepare migration roadmap.</td>
+          </tr>
+          <tr>
+            <td class="cal-date">31 Jul 2026</td>
+            <td><span class="cal-tag">Cloud Infrastructure</span></td>
+            <td class="cal-event">Amazon RDS MySQL 8.0 Support Ends</td>
+            <td>Upgrade to MySQL 8.4 LTS or Extended Support.</td>
+          </tr>
+          <tr>
+            <td class="cal-date">31 Jul 2026</td>
+            <td><span class="cal-tag">IoT</span></td>
+            <td class="cal-event">Azure Sphere MT3620 Lifecycle Milestone</td>
+            <td>Plan hardware refresh and risk review.</td>
+          </tr>
+          <tr>
+            <td class="cal-date">31 Jul 2026</td>
+            <td><span class="cal-tag">Tax Compliance</span></td>
+            <td class="cal-event">ITR Filing Deadline</td>
+            <td>Complete filing for non-audit cases.</td>
+          </tr>
+          <tr>
+            <td class="cal-date">31 Jul 2026</td>
+            <td><span class="cal-tag">Tax Compliance</span></td>
+            <td class="cal-event">Quarterly TDS Return Due</td>
+            <td>Validate records and submit on time.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="box">
+        <h4>SEESEC Recommends</h4>
+        <ul>
+          <li>Review key regulatory obligations.</li>
+          <li>Identify legacy technologies nearing end of support.</li>
+          <li>Prioritize cloud and database modernization.</li>
+          <li>Validate security controls on unsupported systems.</li>
+          <li>Plan tax filings before due dates.</li>
+          <li>Conduct a mid-year readiness review.</li>
+        </ul>
+        <p style="font-family:var(--sans);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-dark);font-weight:700;margin:.9rem 0 0;">
+          Plan early. Reduce risk. Stay compliance-ready.
+        </p>
+      </div>
+
+      <footer class="page-foot">
+        <span>SEESEC Signals · Vol. 1</span>
+        <span class="pg-num">Page 5</span>
+        <span class="pg-total">of 6</span>
+      </footer>
+    </article>
+
+    <!-- ================= PAGE 6 ================= -->
+    <article class="page">
+      <div class="run-head"><span>SEESEC Signals</span><span>People &amp; Growth</span><span>15 June 2026</span></div>
+
+      <p class="sec-kicker">People</p>
+      <h3 class="sec-head">Growing Together</h3>
+
+      <div class="body-cols">
+        <p class="dropcap">SEESEC has crossed the milestone of <strong>50+ team members</strong>, bringing together professionals passionate about AI, cloud technologies, automation, engineering excellence, data intelligence, compliance, and innovation.</p>
+        <p>This growth reflects not only the expansion of our team, but also the strength of our shared vision: to build meaningful technology, solve real business problems, and create lasting impact.</p>
+        <p>As SEESEC continues to scale, our people remain at the center of everything we build.</p>
+      </div>
+
+      <figure>
+        <img data-ph="50+ Strong" data-hue="30" alt="SEESEC team in the office">
+        <figcaption><b>Fifty and counting</b> The SEESEC team at the Gurugram office — engineers, designers, analysts and problem-solvers under one roof.</figcaption>
+      </figure>
+
+      <p class="sec-kicker">Strategy</p>
+      <h3 class="sec-head">Looking Ahead</h3>
+
+      <div class="body-cols">
+        <p>The next phase of SEESEC's journey will be centered around Advanced AI Solutions, Agentic AI Platforms, Enterprise Automation, Cloud Transformation, Governance Technology, Data Intelligence, Compliance Solutions, and Industry-Specific AI Applications.</p>
+        <p>As businesses continue to modernize and adopt AI at scale, SEESEC will remain focused on delivering secure, scalable, and outcome-driven solutions that create measurable value. The opportunities ahead are enormous, and we are just getting started.</p>
+      </div>
+
+      <p class="pullquote">“The opportunities ahead are enormous — and we are just getting started.”</p>
+
+      <p class="sec-kicker">Milestone</p>
+      <h3 class="sec-head">A New Home for a New Chapter</h3>
+
+      <div class="body-cols">
+        <p>June marks another exciting milestone as SEESEC moves into its new office in <strong>Gurugram on 12th June, 2026</strong>. In just 15 months, this marks our sixth workspace upgrade, reflecting the speed of SEESEC's growth and the momentum behind our expanding team and vision.</p>
+        <p>Our new workspace represents more than a change of address. It reflects SEESEC's growth, ambition, and commitment to building a world-class technology organization.</p>
+        <p>The new office will create more room for collaboration, innovation, customer conversations, partner meetings, and stronger team engagement. We look forward to welcoming customers, partners, AWS teams, and industry leaders to our new home.</p>
+      </div>
+
+      <figure class="fig-half">
+        <img data-ph="New Beginnings" data-hue="12" alt="Ribbon cutting at the new office">
+        <figcaption><b>12 June 2026</b> Ribbon-cutting ceremony at SEESEC's new Gurugram headquarters — the sixth workspace upgrade in 15 months.</figcaption>
+      </figure>
+
+      <div class="box">
+        <h4>Thank You</h4>
+        <p style="margin:0;font-size:1rem;line-height:1.7;text-align:justify;">
+          Thank you to our customers, partners, employees, AWS, Ingram Micro, and everyone who has been part of SEESEC's journey so far. Your trust, collaboration, and support have played an important role in shaping our growth and strengthening our vision for the future.
+        </p>
+        <p style="font-family:var(--sans);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-dark);font-weight:700;margin:.9rem 0 0;">
+          See you in the next edition of SEESEC Signals.
+        </p>
+      </div>
+
+      <footer class="page-foot">
+        <span>SEESEC Signals · Vol. 1</span>
+        <span class="pg-num">Page 6</span>
+        <span class="pg-total">of 6</span>
+      </footer>
+    </article>
+
+  </div>
+</main>
+
+<!-- ============ DRAWER ============ -->
+<div class="scrim" id="scrim"></div>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <div>
+      <p>Editorial Desk</p>
+      <h3>Publish a New Page</h3>
+    </div>
+    <button class="close-x" id="closeDrawer" aria-label="Close">✕</button>
+  </div>
+
+  <div class="drawer-body">
+    <div class="field">
+      <label for="f-kicker">Section / Kicker</label>
+      <input type="text" id="f-kicker" placeholder="e.g. Cloud, People, Announcement">
+    </div>
+
+    <div class="field">
+      <label for="f-headline">Headline *</label>
+      <input type="text" id="f-headline" placeholder="A strong, clear headline">
+    </div>
+
+    <div class="field">
+      <label for="f-byline">Byline</label>
+      <input type="text" id="f-byline" placeholder="e.g. SEESEC Editorial Team">
+    </div>
+
+    <div class="field">
+      <label for="f-body">Body Text</label>
+      <textarea id="f-body" placeholder="Write your story here.&#10;&#10;Leave a blank line between paragraphs and they will be split automatically."></textarea>
+      <div class="hint">Tip: separate paragraphs with a blank line. The first paragraph gets a drop cap.</div>
+    </div>
+
+    <div class="field">
+      <label>Images</label>
+      <label class="drop" id="drop" for="f-files">
+        <span>Click or drop images here</span>
+        <small>JPG / PNG / WebP — automatically resized &amp; compressed</small>
+      </label>
+      <input type="file" id="f-files" accept="image/*" multiple>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+
+    <div class="field">
+      <label for="f-url">…or paste an image URL</label>
+      <input type="url" id="f-url" placeholder="https://example.com/photo.jpg">
+      <div class="hint" style="margin-top:8px;">
+        <button class="btn ghost" id="addUrl" type="button" style="padding:8px 16px;font-size:.64rem;">Add Image URL</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="drawer-foot">
+    <button class="btn ghost" id="clearForm" type="button">Clear</button>
+    <button class="btn primary" id="publishBtn" type="button">Publish Page</button>
+  </div>
+</aside>
+
+<!-- ============ ADMIN LOGIN ============ -->
+<div class="modal" id="loginModal" aria-hidden="true">
+  <div class="login-card" role="dialog" aria-labelledby="loginTitle">
+    <p class="kick">Editorial Desk</p>
+    <h3 id="loginTitle">Admin Sign In</h3>
+    <p class="sub">Only authorised editors can add or remove news pages.</p>
+    <div class="field">
+      <label for="l-user">Username</label>
+      <input type="text" id="l-user" autocomplete="username" spellcheck="false">
+    </div>
+    <div class="field">
+      <label for="l-pass">Password</label>
+      <input type="password" id="l-pass" autocomplete="current-password">
+    </div>
+    <div class="login-err" id="loginErr"></div>
+    <div class="login-actions">
+      <button class="btn ghost" id="loginCancel" type="button">Cancel</button>
+      <button class="btn primary" id="loginSubmit" type="button">Sign In</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => (
+  {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
+));
+
+/* ---- Generated newspaper-style placeholder photos ---- */
+function placeholder(label, hue = 160){
+  const l = String(label).replace(/&/g,'and').replace(/[<>]/g,'');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(${hue},40%,80%)"/>
+      <stop offset="0.55" stop-color="hsl(${hue+18},36%,56%)"/>
+      <stop offset="1" stop-color="hsl(${hue+42},42%,28%)"/>
+    </linearGradient>
+    <pattern id="p" width="9" height="9" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="1" fill="rgba(255,255,255,0.15)"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="750" fill="url(#g)"/>
+  <circle cx="985" cy="135" r="235" fill="rgba(255,255,255,0.10)"/>
+  <circle cx="175" cy="645" r="305" fill="rgba(0,0,0,0.11)"/>
+  <path d="M0 565 Q 300 425 600 565 T 1200 515 L1200 750 L0 750Z" fill="rgba(0,0,0,0.17)"/>
+  <rect width="1200" height="750" fill="url(#p)"/>
+  <text x="600" y="372" text-anchor="middle" font-family="Georgia, serif" font-style="italic"
+        font-size="54" fill="rgba(255,255,255,0.94)">${l}</text>
+  <text x="600" y="424" text-anchor="middle" font-family="Helvetica, Arial"
+        font-size="20" letter-spacing="8" fill="rgba(255,255,255,0.62)">SEESEC SIGNALS</text>
+</svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+document.querySelectorAll('img[data-ph]').forEach(img => {
+  img.src = placeholder(img.dataset.ph, Number(img.dataset.hue) || 160);
+});
+
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
+const book     = $('#book');
+const dotsEl   = $('#dots');
+const counter  = $('#counter');
+const prevBtn  = $('#prevBtn');
+const nextBtn  = $('#nextBtn');
+
+let pageEls = [];
+let current = 0;
+
+function refreshPages(){
+  pageEls = Array.from(book.querySelectorAll('.page'));
+  pageEls.forEach((p, i) => {
+    const n = p.querySelector('.pg-num');   if(n) n.textContent = 'Page ' + (i + 1);
+    const t = p.querySelector('.pg-total'); if(t) t.textContent = 'of ' + pageEls.length;
+  });
+  if(current >= pageEls.length) current = pageEls.length - 1;
+  buildDots();
+  updateUI();
+}
+
+function buildDots(){
+  dotsEl.innerHTML = '';
+  pageEls.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'dot' + (i === current ? ' active' : '');
+    b.setAttribute('aria-label', 'Go to page ' + (i + 1));
+    b.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(b);
+  });
+}
+
+function updateUI(){
+  counter.textContent = (current + 1) + ' / ' + pageEls.length;
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === pageEls.length - 1;
+  Array.from(dotsEl.children).forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+let flipping = false;
+const FLIP_MS = 950;
+const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function goTo(i, dir){
+  if(flipping || i < 0 || i >= pageEls.length || i === current) return;
+  const direction = dir || (i > current ? 'next' : 'prev');
+  const out = book.querySelector('.page.active');
+  const inc = pageEls[i];
+  const reset = p => p.classList.remove('active','show','flip-out','flip-in','under');
+
+  current = i;
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'auto' });
+
+  if(!out || out === inc || reduceMotion()){
+    pageEls.forEach(reset);
+    inc.classList.add('active');
+    return;
+  }
+
+  flipping = true;
+  pageEls.forEach(p => { if(p !== out && p !== inc) reset(p); });
+  inc.classList.add('show');
+  if(direction === 'next'){ out.classList.add('flip-out'); inc.classList.add('under'); }
+  else                    { inc.classList.add('flip-in');  out.classList.add('under'); }
+
+  setTimeout(() => {
+    reset(out); reset(inc);
+    inc.classList.add('active');
+    flipping = false;
+  }, FLIP_MS);
+}
+
+prevBtn.addEventListener('click', () => goTo(current - 1, 'prev'));
+nextBtn.addEventListener('click', () => goTo(current + 1, 'next'));
+
+document.addEventListener('keydown', e => {
+  if($('#drawer').classList.contains('open') || $('#loginModal').classList.contains('show')) return;
+  if(e.target.matches('input, textarea')) return;
+  if(e.key === 'ArrowRight') goTo(current + 1, 'next');
+  if(e.key === 'ArrowLeft')  goTo(current - 1, 'prev');
+});
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+const STORE = 'seesec-signals-custom-pages-v1';
+let custom = [];
+
+function loadCustom(){
+  try { custom = JSON.parse(localStorage.getItem(STORE)) || []; }
+  catch(e){ custom = []; }
+}
+function persist(){
+  try {
+    localStorage.setItem(STORE, JSON.stringify(custom));
+  } catch(e){
+    toast('Storage full — try smaller images', true);
+  }
+}
+
+/* =========================================================
+   BUILD A CUSTOM PAGE
+   ========================================================= */
+function buildCustomPage(data){
+  const art = document.createElement('article');
+  art.className = 'page custom-page';
+  art.dataset.id = data.id;
+
+  const kicker   = data.kicker || 'Latest';
+  const byline   = data.byline ? `<p class="byline">By ${esc(data.byline)}</p>` : '';
+  const paras    = (data.body || '').split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  const bodyHTML = paras.length
+    ? paras.map((p, i) =>
+        `<p class="${i === 0 ? 'dropcap' : ''}">${esc(p).replace(/\n/g, '<br>')}</p>`
+      ).join('')
+    : '<p><em>No body text provided.</em></p>';
+
+  const imgs = data.images || [];
+  let heroHTML = '';
+  let galleryHTML = '';
+
+  if(imgs.length){
+    const cap = imgs[0].caption || data.headline;
+    heroHTML = `
+      <figure>
+        <img src="${imgs[0].src}" alt="">
+        <figcaption><b>Photo</b>${esc(cap)}</figcaption>
+      </figure>`;
+
+    if(imgs.length > 1){
+      galleryHTML = `<div class="gallery">` + imgs.slice(1).map(im => `
+        <figure>
+          <img src="${im.src}" alt="">
+          <figcaption><b>Photo</b>${esc(im.caption || data.headline)}</figcaption>
+        </figure>`).join('') + `</div>`;
+    }
+  }
+
+  art.innerHTML = `
+    <button class="del-page" data-del="${data.id}">Remove page</button>
+    <div class="run-head">
+      <span>SEESEC Signals</span>
+      <span>${esc(kicker)}</span>
+      <span>${esc(data.date)}</span>
+    </div>
+
+    <p class="sec-kicker">${esc(kicker)}</p>
+    <h3 class="sec-head">${esc(data.headline)}</h3>
+    ${byline}
+    ${heroHTML}
+    <div class="body-cols">${bodyHTML}</div>
+    ${galleryHTML}
+
+    <footer class="page-foot">
+      <span>SEESEC Signals · Vol. 1</span>
+      <span class="pg-num">Page —</span>
+      <span class="pg-total">of —</span>
+    </footer>
+  `;
+
+  art.querySelector('[data-del]').addEventListener('click', () => deletePage(data.id));
+  return art;
+}
+
+function deletePage(id){
+  if(!isAdmin){ toast('Admin login required', true); return; }
+  if(!confirm('Remove this page permanently?')) return;
+  const el = book.querySelector(`.custom-page[data-id="${id}"]`);
+  const idx = pageEls.indexOf(el);
+  custom = custom.filter(p => p.id !== id);
+  persist();
+  if(el) el.remove();
+  const target = Math.max(0, Math.min(idx - 1, book.querySelectorAll('.page').length - 1));
+  pageEls = Array.from(book.querySelectorAll('.page'));
+  current = -1;
+  goTo(target, 'prev');
+  refreshPages();
+  toast('Page removed');
+}
+
+/* =========================================================
+   DRAWER
+   ========================================================= */
+const drawer = $('#drawer');
+const scrim  = $('#scrim');
+
+function openDrawer(){
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden', 'false');
+  scrim.classList.add('show');
+  setTimeout(() => $('#f-headline').focus(), 350);
+}
+function closeDrawer(){
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden', 'true');
+  scrim.classList.remove('show');
+}
+
+$('#closeDrawer').addEventListener('click', closeDrawer);
+scrim.addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeDrawer();
+});
+
+/* =========================================================
+   IMAGE HANDLING
+   ========================================================= */
+let pendingImages = [];
+
+function readFile(file){
+  return new Promise(resolve => {
+    const fr = new FileReader();
+    fr.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 1400;
+        const scale = Math.min(1, MAX / img.width);
+        const c = document.createElement('canvas');
+        c.width  = Math.round(img.width  * scale);
+        c.height = Math.round(img.height * scale);
+        const ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = () => resolve(fr.result);
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+
+function renderThumbs(){
+  const wrap = $('#thumbs');
+  wrap.innerHTML = '';
+  pendingImages.forEach((im, i) => {
+    const d = document.createElement('div');
+    d.className = 'thumb';
+    d.innerHTML = `<img src="${im.src}" alt=""><button type="button" data-i="${i}" aria-label="Remove">✕</button>`;
+    d.querySelector('button').addEventListener('click', () => {
+      pendingImages.splice(i, 1);
+      renderThumbs();
+    });
+    wrap.appendChild(d);
+  });
+}
+
+const fileInput = $('#f-files');
+fileInput.addEventListener('change', async e => {
+  const files = Array.from(e.target.files || []);
+  for(const f of files){
+    if(!f.type.startsWith('image/')) continue;
+    const src = await readFile(f);
+    pendingImages.push({ src, caption: '' });
+  }
+  renderThumbs();
+  fileInput.value = '';
+});
+
+/* drag & drop */
+const drop = $('#drop');
+['dragenter','dragover'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('hot'); })
+);
+['dragleave','drop'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('hot'); })
+);
+drop.addEventListener('drop', async e => {
+  const files = Array.from(e.dataTransfer.files || []);
+  for(const f of files){
+    if(!f.type.startsWith('image/')) continue;
+    pendingImages.push({ src: await readFile(f), caption: '' });
+  }
+  renderThumbs();
+});
+
+/* image by URL */
+$('#addUrl').addEventListener('click', () => {
+  const url = $('#f-url').value.trim();
+  if(!url) return;
+  pendingImages.push({ src: url, caption: '' });
+  $('#f-url').value = '';
+  renderThumbs();
+});
+
+/* =========================================================
+   PUBLISH
+   ========================================================= */
+$('#publishBtn').addEventListener('click', () => {
+  if(!isAdmin){ toast('Admin login required', true); closeDrawer(); return; }
+  const headline = $('#f-headline').value.trim();
+  const body     = $('#f-body').value.trim();
+
+  if(!headline && !body && !pendingImages.length){
+    toast('Add a headline, text or image first', true);
+    return;
+  }
+
+  const data = {
+    id: 'c' + Date.now(),
+    kicker: $('#f-kicker').value.trim() || 'Newsroom',
+    headline: headline || 'Untitled Report',
+    byline: $('#f-byline').value.trim(),
+    body,
+    images: pendingImages.map(im => ({ src: im.src, caption: im.caption || '' })),
+    date: new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
+  };
+
+  custom.push(data);
+  persist();
+
+  const el = buildCustomPage(data);
+  book.appendChild(el);
+  refreshPages();
+
+  const newIndex = pageEls.length - 1;
+  goTo(newIndex, 'next');
+
+  clearForm();
+  closeDrawer();
+  toast('New page published');
+});
+
+function clearForm(){
+  $('#f-kicker').value   = '';
+  $('#f-headline').value = '';
+  $('#f-byline').value   = '';
+  $('#f-body').value     = '';
+  $('#f-url').value      = '';
+  pendingImages = [];
+  renderThumbs();
+}
+$('#clearForm').addEventListener('click', clearForm);
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+let toastTimer;
+function toast(msg, isErr){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.toggle('err', !!isErr);
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* =========================================================
+   BOOT
+   ========================================================= */
+loadCustom();
+custom.forEach(data => book.appendChild(buildCustomPage(data)));
+refreshPages();
+
+
+/* =========================================================
+   ADMIN AUTH
+   Credentials are checked against a salted SHA-256 hash, so the
+   password is not stored in plain text. NOTE: this is a client-side
+   gate only — for real security, verify logins on a server.
+   Default login:  admin  /  Seesec@2026   (change it — see ADMIN_HASH)
+   ========================================================= */
+function sha256(msg){
+  const b=new TextEncoder().encode(msg), l=b.length, total=(((l+8)>>6)+1)<<6;
+  const buf=new Uint8Array(total); buf.set(b); buf[l]=0x80;
+  const dv=new DataView(buf.buffer);
+  dv.setUint32(total-4,(l*8)>>>0); dv.setUint32(total-8,Math.floor(l*8/4294967296));
+  const P=[]; for(let n=2;P.length<64;n++){ if(P.every(p=>n%p)) P.push(n); }
+  const K=P.map(p=>(Math.pow(p,1/3)%1)*4294967296|0);
+  const H=P.slice(0,8).map(p=>(Math.pow(p,1/2)%1)*4294967296|0);
+  const rr=(x,n)=>(x>>>n)|(x<<(32-n)), W=new Int32Array(64);
+  for(let o=0;o<total;o+=64){
+    for(let i=0;i<16;i++) W[i]=dv.getUint32(o+4*i);
+    for(let i=16;i<64;i++){
+      const s0=rr(W[i-15],7)^rr(W[i-15],18)^(W[i-15]>>>3);
+      const s1=rr(W[i-2],17)^rr(W[i-2],19)^(W[i-2]>>>10);
+      W[i]=(W[i-16]+s0+W[i-7]+s1)|0;
+    }
+    let [a,b2,c,d,e,f,g,h]=H;
+    for(let i=0;i<64;i++){
+      const S1=rr(e,6)^rr(e,11)^rr(e,25), ch=(e&f)^(~e&g);
+      const t1=(h+S1+ch+K[i]+W[i])|0;
+      const S0=rr(a,2)^rr(a,13)^rr(a,22), mj=(a&b2)^(a&c)^(b2&c);
+      const t2=(S0+mj)|0;
+      h=g;g=f;f=e;e=(d+t1)|0;d=c;c=b2;b2=a;a=(t1+t2)|0;
+    }
+    [a,b2,c,d,e,f,g,h].forEach((v,i)=>H[i]=(H[i]+v)|0);
+  }
+  return H.map(v=>(v>>>0).toString(16).padStart(8,'0')).join('');
+}
+
+const ADMIN_USER = 'admin';
+const ADMIN_HASH = '96abb484f9b8ad0bde2fc95ebcc9f0b1387606c459bbc27b4346779e130a040f';   // sha256('seesec-signals::' + user + '::' + password)
+const SESSION_KEY = 'seesec-signals-admin';
+
+let isAdmin = false;
+try { isAdmin = sessionStorage.getItem(SESSION_KEY) === '1'; } catch(e){}
+
+const adminBtn = $('#openDrawer');
+function applyAdmin(){
+  document.body.classList.toggle('is-admin', isAdmin);
+  adminBtn.textContent = isAdmin ? '＋ Add News' : '🔒 Admin';
+}
+
+const loginModal = $('#loginModal');
+function openLogin(){
+  $('#loginErr').textContent = '';
+  $('#l-pass').value = '';
+  loginModal.classList.add('show');
+  loginModal.setAttribute('aria-hidden','false');
+  setTimeout(() => $('#l-user').focus(), 200);
+}
+function closeLogin(){
+  loginModal.classList.remove('show');
+  loginModal.setAttribute('aria-hidden','true');
+}
+
+let fails = 0, lockUntil = 0;
+async function attemptLogin(){
+  const now = Date.now();
+  const err = $('#loginErr');
+  if(now < lockUntil){
+    err.textContent = 'Too many attempts. Try again in ' + Math.ceil((lockUntil - now)/1000) + 's.';
+    return;
+  }
+  const user = $('#l-user').value.trim();
+  const pass = $('#l-pass').value;
+  const ok = user === ADMIN_USER && sha256('seesec-signals::' + user + '::' + pass) === ADMIN_HASH;
+  if(ok){
+    isAdmin = true; fails = 0;
+    try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e){}
+    applyAdmin(); closeLogin();
+    $('#l-user').value = ''; $('#l-pass').value = '';
+    toast('Signed in as admin');
+    openDrawer();
+  } else {
+    fails++;
+    if(fails >= 5){ lockUntil = Date.now() + 30000; fails = 0; err.textContent = 'Too many attempts. Locked for 30 seconds.'; }
+    else err.textContent = 'Incorrect username or password.';
+    $('#l-pass').value = '';
+  }
+}
+
+function logout(){
+  isAdmin = false;
+  try { sessionStorage.removeItem(SESSION_KEY); } catch(e){}
+  closeDrawer(); applyAdmin();
+  toast('Signed out');
+}
+
+adminBtn.addEventListener('click', () => isAdmin ? openDrawer() : openLogin());
+$('#logoutBtn').addEventListener('click', logout);
+$('#loginSubmit').addEventListener('click', attemptLogin);
+$('#loginCancel').addEventListener('click', closeLogin);
+loginModal.addEventListener('click', e => { if(e.target === loginModal) closeLogin(); });
+['#l-user','#l-pass'].forEach(sel => $(sel).addEventListener('keydown', e => { if(e.key === 'Enter') attemptLogin(); }));
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLogin(); });
+applyAdmin();
+</script>
+</body>
+</html>
